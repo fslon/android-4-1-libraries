@@ -1,7 +1,13 @@
 package com.example.android_4_1_libraries.view
 
-interface MainView {
-    fun setButton1Text(text: String)
-    fun setButton2Text(text: String)
-    fun setButton3Text(text: String)
+import moxy.MvpView
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.StateStrategyType
+
+//@AddToEndSingle - есть ещё такой алиас
+
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface MainView : MvpView {
+    fun init()
+    fun updateList()
 }

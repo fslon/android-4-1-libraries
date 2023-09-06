@@ -1,38 +1,36 @@
 package com.example.android_4_1_libraries
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android_4_1_libraries.adapter.UsersRVAdapter
 import com.example.android_4_1_libraries.databinding.ActivityMainBinding
+import com.example.android_4_1_libraries.model.CountersModel
+import com.example.android_4_1_libraries.model.GithubUsersRepo
 import com.example.android_4_1_libraries.presenter.MainPresenter
 import com.example.android_4_1_libraries.view.MainView
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private var vb: ActivityMainBinding? = null
-    val presenter = MainPresenter(this)
+    private var adapter: UsersRVAdapter? = null
+    private val presenter by moxyPresenter { MainPresenter(GithubUsersRepo()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
-
-        vb?.btnCounter1?.setOnClickListener { presenter.counterClickButton1() }
-        vb?.btnCounter2?.setOnClickListener { presenter.counterClickButton2() }
-        vb?.btnCounter3?.setOnClickListener { presenter.counterClickButton3() }
     }
 
-    override fun setButton1Text(text: String) {
-        vb?.btnCounter1?.text = text
+    override fun init() {
+        vb?.rvUsers?.layoutManager = LinearLayoutManager(this)
+        adapter = UsersRVAdapter(presenter.usersListPresenter)
+        vb?.rvUsers?.adapter = adapter
+
     }
 
-    override fun setButton2Text(text: String) {
-        vb?.btnCounter2?.text = text
+    override fun updateList() {
+        adapter?.notifyDataSetChanged()
     }
-
-    override fun setButton3Text(text: String) {
-        vb?.btnCounter3?.text = text
-    }
-
-
 }
