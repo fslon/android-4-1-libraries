@@ -1,7 +1,7 @@
 package com.example.android_4_1_libraries.model
 
 class GithubUsersRepo {
-    private val repositories = listOf(
+    private val users = listOf(
         GithubUser("login1"),
         GithubUser("login2"),
         GithubUser("login3"),
@@ -9,6 +9,6 @@ class GithubUsersRepo {
         GithubUser("login5")
     )
     fun getUsers() : List<GithubUser> {
-        return repositories
+        return users
     }
 }
