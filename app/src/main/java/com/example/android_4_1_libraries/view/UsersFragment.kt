@@ -8,6 +8,7 @@ import com.example.android_4_1_libraries.App
 import com.example.android_4_1_libraries.ui.adapter.UsersRVAdapter
 import com.example.android_4_1_libraries.databinding.FragmentUsersBinding
 import com.example.android_4_1_libraries.model.GithubUsersRepo
+import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.UsersPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
@@ -21,8 +22,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-
-        UsersPresenter(GithubUsersRepo(), App.instance.router) }
+        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens()) }
 
     var adapter: UsersRVAdapter? = null
 
