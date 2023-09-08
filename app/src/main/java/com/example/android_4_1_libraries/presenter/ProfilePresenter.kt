@@ -1,10 +1,11 @@
 package com.example.android_4_1_libraries.presenter
 
+import com.example.android_4_1_libraries.model.GithubUser
 import com.example.android_4_1_libraries.view.ProfileView
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
-class ProfilePresenter(val router: Router) : MvpPresenter<ProfileView>() {
+class ProfilePresenter(val router: Router, val user: GithubUser) : MvpPresenter<ProfileView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -15,9 +16,7 @@ class ProfilePresenter(val router: Router) : MvpPresenter<ProfileView>() {
     private fun loadData() {
         // todo получение логина пользователя (придумать как сделать)
 
-        val userName = "TEST USERNAME" // [тестовый логин]
-
-        viewState.setUser(userName)
+        viewState.setUserLogin(user.login)
     }
 
     fun backPressed(): Boolean {

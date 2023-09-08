@@ -35,7 +35,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
         usersListPresenter.itemClickListener = { itemView ->
             val user = usersListPresenter.users[itemView.pos]
 
-            router.navigateTo(screens.profileUser()) // переход на экран пользователя c помощью router.navigateTo
+            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
     }
 
