@@ -1,5 +1,6 @@
 package com.example.android_4_1_libraries.presenter
 
+import android.util.Log
 import com.example.android_4_1_libraries.model.GithubUser
 import com.example.android_4_1_libraries.model.GithubUsersRepo
 import com.example.android_4_1_libraries.navigation.AndroidScreens
@@ -18,6 +19,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     class UsersListPresenter : IUserListPresenter {
 
         val users = mutableListOf<GithubUser>()
+
         override var itemClickListener: ((UserItemView) -> Unit)? = null
         override fun getCount() = users.size
         override fun bindView(view: UserItemView) {
@@ -40,8 +42,15 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     }
 
     fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
+        val users = usersRepo.getUsers().subscribe(
+            { s ->
+                usersListPresenter.users.add(s)
+            },
+            { e ->
+                println("onError: ${e.message}")
+            }
+        )
+//        usersListPresenter.users.addAll(users)
         viewState.updateList()
     }
 
