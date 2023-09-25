@@ -1,20 +1,19 @@
 package com.example.android_4_1_libraries.presenter
 
-import android.util.Log
 import com.example.android_4_1_libraries.model.GithubUser
-import com.example.android_4_1_libraries.model.GithubUsersRepo
-import com.example.android_4_1_libraries.navigation.AndroidScreens
+import com.example.android_4_1_libraries.model.IGithubUsersRepo
 import com.example.android_4_1_libraries.navigation.IScreens
 import com.example.android_4_1_libraries.presenter.list.IUserListPresenter
-import com.example.android_4_1_libraries.ui.activity.MainActivity
-import com.example.android_4_1_libraries.ui.fragment.ProfileFragment
 import com.example.android_4_1_libraries.view.UsersView
 import com.example.android_4_1_libraries.view.list.UserItemView
 import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.Screen
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screens: IScreens) : MvpPresenter<UsersView>() {
+class UsersPresenter(
+    val uiScheduler: Scheduler, val usersRepo:
+    IGithubUsersRepo, val router: Router, val screens: IScreens
+) : MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -25,6 +24,8 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
             user.login?.let { view.setLogin(it) }
+            user.avatarUrl?.let {view.loadAvatar(it)}
+
         }
     }
 
@@ -42,16 +43,15 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     }
 
     fun loadData() {
-        val users = usersRepo.getUsers().subscribe(
-            { s ->
-                usersListPresenter.users.add(s)
-            },
-            { e ->
-                println("onError: ${e.message}")
-            }
-        )
-//        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersRepo.getUsers().observeOn(uiScheduler).subscribe({ repos ->
+            usersListPresenter.users.clear()
+            usersListPresenter.users.addAll(repos)
+            viewState.updateList()
+
+        }, {
+            println("Error: ${it.message}")
+
+        })
     }
 
     fun backPressed(): Boolean {

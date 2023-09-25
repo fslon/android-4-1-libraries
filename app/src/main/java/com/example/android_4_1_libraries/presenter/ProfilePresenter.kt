@@ -16,7 +16,9 @@ class ProfilePresenter(val router: Router, val user: GithubUser) : MvpPresenter<
     private fun loadData() {
         // todo получение логина пользователя (придумать как сделать)
 
-        viewState.setUserLogin(user.login)
+//        viewState.setUserLogin(user.login)
+        user.login?.let { viewState.setUserLogin(it) }
+
     }
 
     fun backPressed(): Boolean {
