@@ -27,7 +27,13 @@ class ProfileFragment(user: GithubUser) : MvpAppCompatFragment(), ProfileView, B
 //    var thisUser = user
 
     val presenter: ProfilePresenter by moxyPresenter {
-        ProfilePresenter(AndroidSchedulers.mainThread(), RetrofitGithubUsersRepoProfile(ApiHolderProfile.api), App.instance.router, AndroidScreens(), user)
+        ProfilePresenter(
+            AndroidSchedulers.mainThread(),
+            RetrofitGithubUsersRepoProfile(ApiHolderProfile.api, user.reposUrl.toString()),
+            App.instance.router,
+            AndroidScreens(),
+            user
+        )
     }
 
     var adapter: ProfileRVAdapter? = null
