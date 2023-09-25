@@ -1,4 +1,4 @@
-package com.example.android_4_1_libraries.view
+package com.example.android_4_1_libraries.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.UsersPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.ui.adapter.UsersRVAdapter
+import com.example.android_4_1_libraries.view.UsersView
 import com.example.android_4_1_libraries.view.glide.GlideImageLoader
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment

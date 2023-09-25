@@ -9,8 +9,9 @@ import com.example.android_4_1_libraries.presenter.list.IUserListPresenter
 import com.example.android_4_1_libraries.view.glide.IImageLoader
 import com.example.android_4_1_libraries.view.list.UserItemView
 
-class UsersRVAdapter(val presenter: IUserListPresenter, val imageLoader:
-IImageLoader<ImageView>
+class UsersRVAdapter(
+    val presenter: IUserListPresenter, val imageLoader:
+    IImageLoader<ImageView>
 ) : RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
