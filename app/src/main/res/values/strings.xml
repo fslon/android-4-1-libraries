@@ -11,6 +11,7 @@
     <string name="name_of_repository_is">Название репозитория:</string>
     <string name="null_string">null</string>
     <string name="forks_number_is">Количество forks в репозитории:</string>
+    <string name="login_is_null">login = null</string>
 
 
 </resources>

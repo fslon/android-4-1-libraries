@@ -44,15 +44,13 @@ class ProfilePresenter(
     private fun setOnClickListener() {
         profileListPresenter.itemClickListener = { itemView ->
             val repository = profileListPresenter.repositories[itemView.pos]
-//                    Log.e("////////////// ",  repository.forksCount.toString())
 
-            router.navigateTo(screens.repository(repository)) // переход на экран пользователя c помощью router.navigateTo
+            router.navigateTo(screens.repository(repository)) // переход на экран репозитория c помощью router.navigateTo
         }
     }
 
     private fun loadData() {
 
-//        viewState.setUserLogin(user.login)
         user.login?.let { viewState.setUserLogin(it) }
 
         usersRepo.getRepos().observeOn(uiScheduler).subscribe({ repos ->
