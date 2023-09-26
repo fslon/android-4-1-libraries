@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_repository_fragment">15sp</dimen>
+    <dimen name="margin_name_repository_is">25dp</dimen>
+    <dimen name="margin_start_name_of_repository">10dp</dimen>
+    <dimen name="recycler_repositoies_item_margin">16dp</dimen>
+    <dimen name="profile_login_margin">20dp</dimen>
+</resources>

@@ -52,13 +52,26 @@ dependencies {
 
 
     implementation("com.github.moxy-community:moxy-ktx:2.2.2")
-    kapt ("com.github.moxy-community:moxy-compiler:2.2.2")
-    implementation ("com.github.moxy-community:moxy-androidx:2.2.2")
-    implementation ("com.github.moxy-community:moxy-material:2.2.2")
+    kapt("com.github.moxy-community:moxy-compiler:2.2.2")
+    implementation("com.github.moxy-community:moxy-androidx:2.2.2")
+    implementation("com.github.moxy-community:moxy-material:2.2.2")
 
     implementation("androidx.recyclerview:recyclerview:1.3.0")
 
     implementation("com.github.terrakok:cicerone:7.1")
+
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
+
+
+
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
+
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+
 
 
 }
