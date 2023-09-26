@@ -25,7 +25,6 @@ class ProfilePresenter(
         override fun bindView(view: UserItemViewProfile) {
             val repository = repositories[view.pos]
             repository.name?.let { view.setRepositoryName(it) }
-
         }
     }
 
@@ -37,11 +36,18 @@ class ProfilePresenter(
 
         loadData()
 
-//        usersListPresenter.itemClickListener = { itemView -> TODO переход на экран с инфой о репозитории
-//            val user = usersListPresenter.users[itemView.pos]
-//
-//            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
-//        }
+
+        setOnClickListener()
+
+    }
+
+    private fun setOnClickListener() {
+        profileListPresenter.itemClickListener = { itemView ->
+            val repository = profileListPresenter.repositories[itemView.pos]
+//                    Log.e("////////////// ",  repository.forksCount.toString())
+
+            router.navigateTo(screens.repository(repository)) // переход на экран пользователя c помощью router.navigateTo
+        }
     }
 
     private fun loadData() {
@@ -49,7 +55,7 @@ class ProfilePresenter(
 //        viewState.setUserLogin(user.login)
         user.login?.let { viewState.setUserLogin(it) }
 
-        usersRepo.getRepos().observeOn(uiScheduler).subscribe({ repos -> // TODO переделать код
+        usersRepo.getRepos().observeOn(uiScheduler).subscribe({ repos ->
             profileListPresenter.repositories.clear()
             profileListPresenter.repositories.addAll(repos)
             viewState.updateList()

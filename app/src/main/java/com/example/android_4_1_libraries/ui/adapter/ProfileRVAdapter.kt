@@ -29,7 +29,7 @@ class ProfileRVAdapter(
         override var pos = -1
 
         override fun setRepositoryName(text: String) = with(vb) {
-            tvRepositoryName.text = text
+            tvRepositoryNameResult.text = text
         }
 
 

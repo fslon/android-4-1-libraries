@@ -72,11 +72,6 @@ class ProfileFragment(user: GithubUser) : MvpAppCompatFragment(), ProfileView, B
 
     companion object {
         fun newInstance(user: GithubUser) = ProfileFragment(user)
-//            val data = Bundle()
-//            data.putParcelable("user", user)
-//            return ProfileFragment(user).apply {
-//                arguments = data
-//            }
     }
 
 }
