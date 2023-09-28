@@ -1,7 +1,7 @@
 package com.example.android_4_1_libraries.presenter
 
-import com.example.android_4_1_libraries.model.GithubUser
-import com.example.android_4_1_libraries.model.IGithubUsersRepo
+import com.example.android_4_1_libraries.model.users.GithubUser
+import com.example.android_4_1_libraries.model.users.IGithubUsersRepo
 import com.example.android_4_1_libraries.navigation.IScreens
 import com.example.android_4_1_libraries.presenter.list.IUserListPresenter
 import com.example.android_4_1_libraries.view.UsersView

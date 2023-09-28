@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_4_1_libraries.App
 import com.example.android_4_1_libraries.databinding.FragmentUsersBinding
-import com.example.android_4_1_libraries.model.ApiHolder
-import com.example.android_4_1_libraries.model.RetrofitGithubUsersRepo
+import com.example.android_4_1_libraries.model.room.Database
+import com.example.android_4_1_libraries.model.users.ApiHolder
+import com.example.android_4_1_libraries.model.users.RetrofitGithubUsersRepo
 import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.UsersPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.ui.adapter.UsersRVAdapter
+import com.example.android_4_1_libraries.ui.network.AndroidNetworkStatus
 import com.example.android_4_1_libraries.view.UsersView
 import com.example.android_4_1_libraries.view.glide.GlideImageLoader
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -26,7 +28,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(AndroidSchedulers.mainThread(), RetrofitGithubUsersRepo(ApiHolder.api), App.instance.router, AndroidScreens())
+        val db = Database
+        db.create(context)
+        UsersPresenter(AndroidSchedulers.mainThread(), RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), db.getInstance()), App.instance.router, AndroidScreens())
     }
 
     var adapter: UsersRVAdapter? = null

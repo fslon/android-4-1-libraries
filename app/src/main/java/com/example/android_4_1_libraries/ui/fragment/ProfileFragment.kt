@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_4_1_libraries.App
 import com.example.android_4_1_libraries.databinding.FragmentProfileBinding
-import com.example.android_4_1_libraries.model.GithubUser
 import com.example.android_4_1_libraries.model.profile.ApiHolderProfile
 import com.example.android_4_1_libraries.model.profile.RetrofitGithubUsersRepoProfile
+import com.example.android_4_1_libraries.model.room.Database
+import com.example.android_4_1_libraries.model.users.GithubUser
 import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.ProfilePresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.ui.adapter.ProfileRVAdapter
+import com.example.android_4_1_libraries.ui.network.AndroidNetworkStatus
 import com.example.android_4_1_libraries.view.ProfileView
 import com.example.android_4_1_libraries.view.glide.GlideImageLoader
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -27,9 +29,12 @@ class ProfileFragment(user: GithubUser) : MvpAppCompatFragment(), ProfileView, B
 //    var thisUser = user
 
     val presenter: ProfilePresenter by moxyPresenter {
+        val db = Database
+        db.create(context)
+
         ProfilePresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepoProfile(ApiHolderProfile.api, user.reposUrl.toString()),
+            RetrofitGithubUsersRepoProfile(ApiHolderProfile.api, AndroidNetworkStatus(requireContext()), db.getInstance()),
             App.instance.router,
             AndroidScreens(),
             user

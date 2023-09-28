@@ -1,8 +1,8 @@
 package com.example.android_4_1_libraries.presenter
 
-import com.example.android_4_1_libraries.model.GithubUser
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.model.profile.IGithubUsersRepoProfile
+import com.example.android_4_1_libraries.model.users.GithubUser
 import com.example.android_4_1_libraries.navigation.IScreens
 import com.example.android_4_1_libraries.presenter.listProfile.IUserListPresenterProfile
 import com.example.android_4_1_libraries.view.ProfileView
@@ -53,7 +53,7 @@ class ProfilePresenter(
 
         user.login?.let { viewState.setUserLogin(it) }
 
-        usersRepo.getRepos().observeOn(uiScheduler).subscribe({ repos ->
+        usersRepo.getRepos(user).observeOn(uiScheduler).subscribe({ repos ->
             profileListPresenter.repositories.clear()
             profileListPresenter.repositories.addAll(repos)
             viewState.updateList()

@@ -1,4 +1,4 @@
-package com.example.android_4_1_libraries.model
+package com.example.android_4_1_libraries.model.users
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

@@ -1,4 +1,4 @@
-package com.example.android_4_1_libraries.model
+package com.example.android_4_1_libraries.model.users
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
