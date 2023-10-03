@@ -10,6 +10,7 @@ import com.example.android_4_1_libraries.databinding.FragmentProfileBinding
 import com.example.android_4_1_libraries.model.profile.ApiHolderProfile
 import com.example.android_4_1_libraries.model.profile.RetrofitGithubUsersRepoProfile
 import com.example.android_4_1_libraries.model.room.Database
+import com.example.android_4_1_libraries.model.room.cache.RoomGithubRepositoriesCache
 import com.example.android_4_1_libraries.model.users.GithubUser
 import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.ProfilePresenter
@@ -34,7 +35,7 @@ class ProfileFragment(user: GithubUser) : MvpAppCompatFragment(), ProfileView, B
 
         ProfilePresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepoProfile(ApiHolderProfile.api, AndroidNetworkStatus(requireContext()), db.getInstance()),
+            RetrofitGithubUsersRepoProfile(ApiHolderProfile.api, AndroidNetworkStatus(requireContext()), db.getInstance(), RoomGithubRepositoriesCache()),
             App.instance.router,
             AndroidScreens(),
             user

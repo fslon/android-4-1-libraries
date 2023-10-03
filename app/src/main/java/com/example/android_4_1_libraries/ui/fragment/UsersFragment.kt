@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_4_1_libraries.App
 import com.example.android_4_1_libraries.databinding.FragmentUsersBinding
 import com.example.android_4_1_libraries.model.room.Database
+import com.example.android_4_1_libraries.model.room.cache.RoomGithubUsersCache
 import com.example.android_4_1_libraries.model.users.ApiHolder
 import com.example.android_4_1_libraries.model.users.RetrofitGithubUsersRepo
 import com.example.android_4_1_libraries.navigation.AndroidScreens
@@ -30,7 +31,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     val presenter: UsersPresenter by moxyPresenter {
         val db = Database
         db.create(context)
-        UsersPresenter(AndroidSchedulers.mainThread(), RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), db.getInstance()), App.instance.router, AndroidScreens())
+        UsersPresenter(AndroidSchedulers.mainThread(), RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), db.getInstance(), RoomGithubUsersCache()), App.instance.router, AndroidScreens())
     }
 
     var adapter: UsersRVAdapter? = null
