@@ -38,6 +38,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    kapt {
+        generateStubs = true
+    }
+
 }
 
 dependencies {
@@ -64,8 +69,6 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.0.0")
 
 
-
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
@@ -75,6 +78,11 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.5.2")
     kapt("androidx.room:room-compiler:2.5.2")
+
+
+
+    implementation("com.google.dagger:dagger:2.24")
+    kapt("com.google.dagger:dagger-compiler:2.24")
 
 
 }

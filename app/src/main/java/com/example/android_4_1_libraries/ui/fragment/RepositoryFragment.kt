@@ -4,28 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.android_4_1_libraries.App
+import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.databinding.FragmentRepositoryBinding
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
-import com.example.android_4_1_libraries.navigation.AndroidScreens
 import com.example.android_4_1_libraries.presenter.RepositoryPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.view.RepositoryView
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class RepositoryFragment(repository: GithubUserProfile) : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
+class RepositoryFragment() : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
     private var _binding: FragmentRepositoryBinding? = null
     private val binding get() = _binding!!
 
+    //При выполнении практического задания это должно отсюда уйти
+    @Inject
+    lateinit var router: Router
+
     val presenter: RepositoryPresenter by moxyPresenter {
-        RepositoryPresenter(
-            AndroidSchedulers.mainThread(),
-            App.instance.router,
-            AndroidScreens(),
-            repository
-        )
+        val repository =
+            arguments?.getParcelable<GithubUserProfile>(REPOSITORY_ARG) as GithubUserProfile
+        RepositoryPresenter(router, repository)
     }
 
 
@@ -59,6 +60,14 @@ class RepositoryFragment(repository: GithubUserProfile) : MvpAppCompatFragment()
     }
 
     companion object {
-        fun newInstance(repository: GithubUserProfile) = RepositoryFragment(repository)
+        private const val REPOSITORY_ARG = "repository"
+        fun newInstance(repository: GithubUserProfile) =
+            RepositoryFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(REPOSITORY_ARG, repository)
+                }
+                App.instance.appComponent.inject(this)
+            }
     }
+
 }

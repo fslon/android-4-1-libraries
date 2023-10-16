@@ -1,14 +1,12 @@
 package com.example.android_4_1_libraries.presenter
 
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
-import com.example.android_4_1_libraries.navigation.IScreens
 import com.example.android_4_1_libraries.view.RepositoryView
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
 class RepositoryPresenter(
-    val uiScheduler: Scheduler, val router: Router, val screens: IScreens, val repository: GithubUserProfile
+    val router: Router, val repository: GithubUserProfile
 ) : MvpPresenter<RepositoryView>() {
 
 
