@@ -22,7 +22,7 @@ class RetrofitGithubUsersRepoProfile(
                     }
                 } ?: Single.error<List<GithubUserProfile>>(RuntimeException("User has no repos url")).subscribeOn(Schedulers.io())
 
-            } else { // TODO сделать где то тут вызов networkStatus.isOnline(), чтобы оно слушало пока сеть не появится, а когда появится, загрузить данные
+            } else { // todo сделать где то тут вызов networkStatus.isOnline(), чтобы оно слушало пока сеть не появится, а когда появится, загрузить данные
                 cacheInterface.getRepositoriesIfOffline(db, user)
             }
         }.subscribeOn(Schedulers.io())

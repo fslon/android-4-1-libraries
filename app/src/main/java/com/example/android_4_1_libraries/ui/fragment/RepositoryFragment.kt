@@ -4,29 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.databinding.FragmentRepositoryBinding
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.presenter.RepositoryPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.view.RepositoryView
-import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import javax.inject.Inject
 
-class RepositoryFragment() : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
+class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
     private var _binding: FragmentRepositoryBinding? = null
     private val binding get() = _binding!!
-
-    //При выполнении практического задания это должно отсюда уйти
-    @Inject
-    lateinit var router: Router
 
     val presenter: RepositoryPresenter by moxyPresenter {
         val repository =
             arguments?.getParcelable<GithubUserProfile>(REPOSITORY_ARG) as GithubUserProfile
-        RepositoryPresenter(router, repository)
+        RepositoryPresenter(repository)
     }
 
 
@@ -66,7 +59,6 @@ class RepositoryFragment() : MvpAppCompatFragment(), RepositoryView, BackButtonL
                 arguments = Bundle().apply {
                     putParcelable(REPOSITORY_ARG, repository)
                 }
-                App.instance.appComponent.inject(this)
             }
     }
 

@@ -14,10 +14,10 @@ class RetrofitGithubUsersRepo(
         if (isOnline) {
             api.getUsers()
                 .flatMap { users ->
-                    cacheInterface.insertUsersIfOnline(db, users)
+                    cacheInterface.insertUsersIfOnline(users)
                 }
         } else {
-            cacheInterface.getUsersIfOffline(db)
+            cacheInterface.getUsersIfOffline()
         }
     }.subscribeOn(Schedulers.io())
 }

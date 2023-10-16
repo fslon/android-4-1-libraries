@@ -1,5 +1,6 @@
 package com.example.android_4_1_libraries.presenter
 
+import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.model.profile.IGithubUsersRepoProfile
 import com.example.android_4_1_libraries.model.users.GithubUser
@@ -8,13 +9,11 @@ import com.example.android_4_1_libraries.presenter.listProfile.IUserListPresente
 import com.example.android_4_1_libraries.view.ProfileView
 import com.example.android_4_1_libraries.view.listProfile.UserItemViewProfile
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class ProfilePresenter(
-    val uiScheduler: Scheduler, val usersRepo:
-    IGithubUsersRepoProfile, val router: Router, val screens: IScreens, val user: GithubUser
-) : MvpPresenter<ProfileView>() {
+class ProfilePresenter(val user: GithubUser) : MvpPresenter<ProfileView>() {
 
     class ProfileListPresenter : IUserListPresenterProfile {
 
@@ -28,17 +27,27 @@ class ProfilePresenter(
         }
     }
 
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var usersRepo: IGithubUsersRepoProfile
+
+
     val profileListPresenter = ProfilePresenter.ProfileListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        App.instance.appComponent.inject(this)
+
         viewState.init()
 
         loadData()
 
-
         setOnClickListener()
-
     }
 
     private fun setOnClickListener() {
@@ -53,7 +62,7 @@ class ProfilePresenter(
 
         user.login?.let { viewState.setUserLogin(it) }
 
-        usersRepo.getRepos(user).observeOn(uiScheduler).subscribe({ repos ->
+        usersRepo.getRepos(user).observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
             profileListPresenter.repositories.clear()
             profileListPresenter.repositories.addAll(repos)
             viewState.updateList()
