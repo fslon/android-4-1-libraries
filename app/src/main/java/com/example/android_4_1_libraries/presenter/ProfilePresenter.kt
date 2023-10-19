@@ -1,6 +1,5 @@
 package com.example.android_4_1_libraries.presenter
 
-import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.model.profile.IGithubUsersRepoProfile
 import com.example.android_4_1_libraries.model.users.GithubUser
@@ -9,7 +8,7 @@ import com.example.android_4_1_libraries.presenter.listProfile.IUserListPresente
 import com.example.android_4_1_libraries.view.ProfileView
 import com.example.android_4_1_libraries.view.listProfile.UserItemViewProfile
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import javax.inject.Inject
 
@@ -28,11 +27,11 @@ class ProfilePresenter(val user: GithubUser) : MvpPresenter<ProfileView>() {
     }
 
     @Inject
+    lateinit var mainScheduler: Scheduler
+    @Inject
     lateinit var screens: IScreens
-
     @Inject
     lateinit var router: Router
-
     @Inject
     lateinit var usersRepo: IGithubUsersRepoProfile
 
@@ -41,7 +40,6 @@ class ProfilePresenter(val user: GithubUser) : MvpPresenter<ProfileView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.instance.appComponent.inject(this)
 
         viewState.init()
 
@@ -62,7 +60,7 @@ class ProfilePresenter(val user: GithubUser) : MvpPresenter<ProfileView>() {
 
         user.login?.let { viewState.setUserLogin(it) }
 
-        usersRepo.getRepos(user).observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+        usersRepo.getRepos(user).observeOn(mainScheduler).subscribe({ repos ->
             profileListPresenter.repositories.clear()
             profileListPresenter.repositories.addAll(repos)
             viewState.updateList()
@@ -77,6 +75,11 @@ class ProfilePresenter(val user: GithubUser) : MvpPresenter<ProfileView>() {
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
     }
 
 }

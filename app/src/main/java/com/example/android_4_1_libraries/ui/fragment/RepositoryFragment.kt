@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.databinding.FragmentRepositoryBinding
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.presenter.RepositoryPresenter
@@ -19,7 +20,9 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     val presenter: RepositoryPresenter by moxyPresenter {
         val repository =
             arguments?.getParcelable<GithubUserProfile>(REPOSITORY_ARG) as GithubUserProfile
-        RepositoryPresenter(repository)
+        RepositoryPresenter(repository).apply {
+            App.instance.repositorySubComponent?.inject(this)
+        }
     }
 
 

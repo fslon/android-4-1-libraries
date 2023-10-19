@@ -4,20 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android_4_1_libraries.dagger.App
+import com.example.android_4_1_libraries.dagger.user.UserSubComponent
 import com.example.android_4_1_libraries.databinding.FragmentUsersBinding
 import com.example.android_4_1_libraries.presenter.UsersPresenter
 import com.example.android_4_1_libraries.ui.activity.BackButtonListener
 import com.example.android_4_1_libraries.ui.adapter.UsersRVAdapter
 import com.example.android_4_1_libraries.view.UsersView
-import com.example.android_4_1_libraries.view.glide.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     private var vb: FragmentUsersBinding? = null
 
+    private var userSubComponent: UserSubComponent? = null
+
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter()
+        userSubComponent = App.instance.initUserSubComponent()
+
+        UsersPresenter().apply {
+            userSubComponent?.inject(this)
+        }
     }
 
     var adapter: UsersRVAdapter? = null
@@ -37,7 +44,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
-        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
+        adapter = UsersRVAdapter(presenter.usersListPresenter).apply {
+            userSubComponent?.inject(this)
+        }
         vb?.rvUsers?.adapter = adapter
     }
 
@@ -46,7 +55,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     override fun release() {
-        TODO("Not yet implemented")
+        userSubComponent = null
+        App.instance.releaseUserSubComponent()
     }
 
     override fun backPressed() = presenter.backPressed()

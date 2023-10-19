@@ -1,6 +1,5 @@
 package com.example.android_4_1_libraries.presenter
 
-import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.model.users.GithubUser
 import com.example.android_4_1_libraries.model.users.IGithubUsersRepo
 import com.example.android_4_1_libraries.navigation.IScreens
@@ -39,8 +38,6 @@ class UsersPresenter : MvpPresenter<UsersView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-
-        App.instance.appComponent.inject(this)
 
         viewState.init()
         loadData()

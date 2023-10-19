@@ -1,6 +1,5 @@
 package com.example.android_4_1_libraries.presenter
 
-import com.example.android_4_1_libraries.dagger.App
 import com.example.android_4_1_libraries.model.profile.GithubUserProfile
 import com.example.android_4_1_libraries.view.RepositoryView
 import com.github.terrakok.cicerone.Router
@@ -14,10 +13,6 @@ class RepositoryPresenter(
     @Inject
     lateinit var router: Router
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        App.instance.appComponent.inject(this)
-    }
 
     fun loadData() {
         viewState.setRepositoryName(repository.name.toString())

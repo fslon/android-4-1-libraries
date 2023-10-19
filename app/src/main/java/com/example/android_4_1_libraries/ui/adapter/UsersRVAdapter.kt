@@ -8,11 +8,14 @@ import com.example.android_4_1_libraries.databinding.ItemUserBinding
 import com.example.android_4_1_libraries.presenter.list.IUserListPresenter
 import com.example.android_4_1_libraries.view.glide.IImageLoader
 import com.example.android_4_1_libraries.view.list.UserItemView
+import javax.inject.Inject
 
 class UsersRVAdapter(
-    val presenter: IUserListPresenter, val imageLoader:
-    IImageLoader<ImageView>
+    val presenter: IUserListPresenter
 ) : RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)).apply {

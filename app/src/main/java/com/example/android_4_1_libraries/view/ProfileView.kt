@@ -9,4 +9,5 @@ interface ProfileView : MvpView {
     fun setUserLogin(userName: String)
     fun init()
     fun updateList()
+    fun release()
 }

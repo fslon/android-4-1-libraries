@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android_4_1_libraries.dagger.App
+import com.example.android_4_1_libraries.dagger.repository.RepositorySubComponent
 import com.example.android_4_1_libraries.databinding.FragmentProfileBinding
 import com.example.android_4_1_libraries.model.users.GithubUser
 import com.example.android_4_1_libraries.presenter.ProfilePresenter
@@ -21,9 +23,16 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     private val binding get() = _binding!!
 //    var thisUser = user
 
+    private var repositorySubComponent: RepositorySubComponent? = null
+
     val presenter: ProfilePresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        ProfilePresenter(user)
+
+        repositorySubComponent = App.instance.initRepositorySubComponent()
+
+        ProfilePresenter(user).apply {
+            repositorySubComponent?.inject(this)
+        }
     }
 
 
@@ -56,6 +65,11 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun release() {
+        repositorySubComponent = null
+        App.instance.releaseRepositorySubComponent()
     }
 
     override fun backPressed() = presenter.backPressed()

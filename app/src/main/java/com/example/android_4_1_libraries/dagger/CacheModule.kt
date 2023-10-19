@@ -2,10 +2,6 @@ package com.example.android_4_1_libraries.dagger
 
 import androidx.room.Room
 import com.example.android_4_1_libraries.model.room.Database
-import com.example.android_4_1_libraries.model.room.cache.IRepositoriesCache
-import com.example.android_4_1_libraries.model.room.cache.IUsersCache
-import com.example.android_4_1_libraries.model.room.cache.RoomGithubRepositoriesCache
-import com.example.android_4_1_libraries.model.room.cache.RoomGithubUsersCache
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -20,15 +16,6 @@ class CacheModule {
     )
         .build()
 
-    @Singleton
-    @Provides
-    fun usersCache(database: Database): IUsersCache =
-        RoomGithubUsersCache(database)
-
-    @Singleton
-    @Provides
-    fun repositoriesCache(): IRepositoriesCache =
-        RoomGithubRepositoriesCache()
 
 }
 
